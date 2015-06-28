@@ -9,7 +9,12 @@ public class SortLibrary {
     public static void main(String[] args)
     {
         int[] unsorted = generateRandomArray(100, 0, 100);
-        int[] sorted = insertionSort(unsorted);
+        if(unsorted == null)
+        {
+            System.err.println("Could not produce unsorted array, terminating.");
+            System.exit(-1);
+        }
+        int[] sorted = recursiveQuicksort(unsorted);
         String output = Arrays.toString(sorted);
         System.out.println(output);
     }
@@ -75,20 +80,82 @@ public class SortLibrary {
         return arr;
     }
 
+    /**
+     * Performs recursive quicksort on the supplied array.  This quicksort has worst-case runtime O(n^2), with this
+     * behavior occurring when the array consists of a single repeated element.  The average-case runtime of this
+     * algorithm is O(n log n).  The algorithm could be improved by k-sorting the array then calling insertion sort
+     * on the array.
+     * @param arr The array to be sorted.
+     * @return A sorted array of integers.
+     */
     public static int[] recursiveQuicksort(int[] arr)
     {
+        quicksort(arr, 0, arr.length - 1);
 
-        return new int[]{}; //TODO
+        return arr;
     }
 
-    private static int[] partition(int[] arr, int low, int high)
+    /**
+     * Private helper method for recursive quicksort.  This method chooses a pivot and swaps elements of the subarray
+     * determined by low and high so that all elements less than the pivot value are to the left of the pivot and all
+     * elements greater than the pivot value are to the right of the pivot.
+     * @param arr The array to be partitioned.
+     * @param low The lower bound of the range to be partitioned.
+     * @param high The upper bound of the range to be partitioned.
+     * @return An array with the specified range partitioned.
+     */
+    private static int partition(int[] arr, int low, int high)
     {
-        return new int[]{};//TODO
+        Random generator = new Random(); //this implementation chooses pivot randomly
+        //chose a pivot index between low and high, inclusive
+        int range = high - low;
+        int pivotIndex = generator.nextInt(range + 1) + low;
+        int pivotValue = arr[pivotIndex];
+
+        //put the chosen pivot at arr[high]
+        int temp = arr[high];
+        arr[high] = pivotValue;
+        arr[pivotIndex] = temp;
+
+        int storeIndex = low;
+        for(int i = low; i < high; i++)
+        {
+            if(arr[i] < pivotValue) {
+                temp = arr[storeIndex];
+                arr[storeIndex] = arr[i];
+                arr[i] = temp;
+                storeIndex++;
+            }
+        }
+
+        //move pivot to its final resting place
+        temp = arr[high];
+        arr[high] = arr[storeIndex];
+        arr[storeIndex] = temp;
+        return storeIndex;
     }
 
+    /**
+     * Private helper method for recursive quicksort.  Performs quicksort on the subarray arr[low,high].  This method
+     * either does nothing and returns the array (in case the range to be sorted is size 0) or partitions the array and
+     * recursively calls itself on the unsorted subarrays to either side of the partition.  Warning: this doesn't use
+     * tail recursion so it's not optimal by any means.  Not for use with large arrays.
+     * @param arr The array to be sorted.
+     * @param low The lower bound of the subarray to be sorted.
+     * @param high The upper bound of the subarray to be sorted.
+     * @return A array with the specified subarray sorted.
+     */
     private static int[] quicksort(int[] arr, int low, int high)
     {
-        return new int[]{}; //TODO
+
+        if(low < high)
+        {
+            int partition = partition(arr, low, high);
+            quicksort(arr, low, partition - 1);
+            quicksort(arr, partition + 1, high);
+        }
+
+        return arr;
     }
 
 
@@ -109,7 +176,7 @@ public class SortLibrary {
 
         if(upperBound - lowerBound > Integer.MAX_VALUE)
         {
-            System.out.println("Range of values too large!");
+            System.err.println("Range of values too large!");
             return null;
         } else {
             range = upperBound - lowerBound;
