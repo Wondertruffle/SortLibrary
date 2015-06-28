@@ -72,8 +72,25 @@ public class SortLibrary {
                 j--;
             }
         }
-        return arr; //TODO
+        return arr;
     }
+
+    public static int[] recursiveQuicksort(int[] arr)
+    {
+
+        return new int[]{}; //TODO
+    }
+
+    private static int[] partition(int[] arr, int low, int high)
+    {
+        return new int[]{};//TODO
+    }
+
+    private static int[] quicksort(int[] arr, int low, int high)
+    {
+        return new int[]{}; //TODO
+    }
+
 
 
     /**
@@ -88,13 +105,20 @@ public class SortLibrary {
         Random generator = new Random();
         int[] result = new int[size];
 
+        int range;
+
+        if(upperBound - lowerBound > Integer.MAX_VALUE)
+        {
+            System.out.println("Range of values too large!");
+            return null;
+        } else {
+            range = upperBound - lowerBound;
+        }
+
         for(int i = 0; i < size; i++)
         {
-            int randVal;
-            do {
-                randVal = generator.nextInt(upperBound) + 1;
-
-            } while (!(randVal >= lowerBound));
+            int randVal = generator.nextInt(range + 1);
+            randVal += lowerBound;
             result[i] = randVal;
         }
         return result;
