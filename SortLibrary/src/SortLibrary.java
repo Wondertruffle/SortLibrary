@@ -14,7 +14,7 @@ public class SortLibrary {
             System.err.println("Could not produce unsorted array, terminating.");
             System.exit(-1);
         }
-        int[] sorted = recursiveQuicksort(unsorted);
+        int[] sorted = mergeSort(unsorted);
         String output = Arrays.toString(sorted);
         System.out.println(output);
     }
@@ -161,8 +161,59 @@ public class SortLibrary {
 
     public static int[] mergeSort(int[] arr)
     {
+        if(arr.length <= 1) return arr;
 
-        return new int[]{}; //TODO
+        int len = arr.length;
+        int mid = arr.length / 2;
+        int[] left = Arrays.copyOfRange(arr, 0, mid - 1);
+        int[] right = Arrays.copyOfRange(arr, mid, len - 1);
+
+        //recursive call
+        mergeSort(left);
+        mergeSort(right);
+
+        //perform the merge
+        merge(left, right, arr);
+
+        return arr;
+    }
+
+    private static void merge(int[] left, int[] right, int[] target)
+    {
+        int leftLen = left.length;
+        int rightLen = right.length;
+        int i = 0; //keeps track of our position in the left array
+        int j = 0; //keeps track of our position in the right array
+        int k = 0; //keeps track of our position in the target array
+
+        while(i < leftLen && j < rightLen)
+        {
+            if(left[i] <= right[j])
+            {
+                target[k] = left[i];
+                i++;
+            } else {
+                target[k] = right[j];
+                j++;
+            }
+            k++;
+
+        }
+
+        //handle leftovers
+        while(i < leftLen)
+        {
+            target[k] = left[i];
+            i++;
+            k++;
+        }
+
+        while(j < rightLen)
+        {
+            target[k] = right[j];
+            j++;
+            k++;
+        }
     }
 
 
@@ -196,6 +247,20 @@ public class SortLibrary {
         }
         return result;
     }
+
+    public static void copyArray(int[] source, int[] dest)
+    {
+        if(source.length != dest.length)
+            throw new IllegalArgumentException();
+
+        int len = source.length;
+        for(int i = 0; i < len; i++)
+        {
+            dest[i] = source[i];
+        }
+        return;
+    }
+
 
 
 }
