@@ -9,14 +9,19 @@ public class SortLibrary {
     public static void main(String[] args)
     {
         int[] unsorted = generateRandomArray(100, 0, 100);
+
         if(unsorted == null)
         {
             System.err.println("Could not produce unsorted array, terminating.");
             System.exit(-1);
         }
+        String unsortedString = Arrays.toString(unsorted);
+
         int[] sorted = mergeSort(unsorted);
-        String output = Arrays.toString(sorted);
-        System.out.println(output);
+        String sortedString = Arrays.toString(sorted);
+
+        System.out.println("Unsorted: " + unsortedString);
+        System.out.println("Sorted: " + sortedString);
     }
 
     /**
@@ -159,14 +164,21 @@ public class SortLibrary {
     }
 
 
+    /**
+     * Performs mergesort on the specified array.  Splits the array, sorts each half, and merges the two lists.
+     *
+     * Runs in worst case O(n log n).  Uses non-optimized recursion, use caution.
+     * @param arr The array to be sorted.
+     * @return The sorted array.
+     */
     public static int[] mergeSort(int[] arr)
     {
         if(arr.length <= 1) return arr;
 
         int len = arr.length;
         int mid = arr.length / 2;
-        int[] left = Arrays.copyOfRange(arr, 0, mid - 1);
-        int[] right = Arrays.copyOfRange(arr, mid, len - 1);
+        int[] left = Arrays.copyOfRange(arr, 0, mid);
+        int[] right = Arrays.copyOfRange(arr, mid, len);
 
         //recursive call
         mergeSort(left);
@@ -178,6 +190,12 @@ public class SortLibrary {
         return arr;
     }
 
+    /**
+     * Merges two sorted subarrays into the target array.
+     * @param left The left sorted array.
+     * @param right The right sorted array.
+     * @param target The array that we will merge into.
+     */
     private static void merge(int[] left, int[] right, int[] target)
     {
         int leftLen = left.length;
@@ -200,7 +218,7 @@ public class SortLibrary {
 
         }
 
-        //handle leftovers
+        //handle leftovers in case the subarrays are different sizes.
         while(i < leftLen)
         {
             target[k] = left[i];
@@ -246,19 +264,6 @@ public class SortLibrary {
             result[i] = randVal;
         }
         return result;
-    }
-
-    public static void copyArray(int[] source, int[] dest)
-    {
-        if(source.length != dest.length)
-            throw new IllegalArgumentException();
-
-        int len = source.length;
-        for(int i = 0; i < len; i++)
-        {
-            dest[i] = source[i];
-        }
-        return;
     }
 
 
