@@ -35,9 +35,14 @@ public class IntegerMinheap implements Heap<Integer> {
     @Override
     public void add(Integer item)
     {
-        if(indexOfLast >= arr.length) resize();
 
-        arr[++indexOfLast] = item;
+        try {
+            arr[++indexOfLast] = item;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            resize();
+            arr[indexOfLast] = item;
+        }
+
         siftUp();
 
     }
@@ -87,6 +92,7 @@ public class IntegerMinheap implements Heap<Integer> {
      */
     private void siftDown()
     {
+        if(indexOfLast == 0) return; //heap with one element has heap property trivially.
         int currentIndex = 0;
         int leftChild = 2 * currentIndex + 1;
         int rightChild = 2 * currentIndex + 2;
@@ -104,7 +110,7 @@ public class IntegerMinheap implements Heap<Integer> {
             }
             leftChild = 2 * currentIndex + 1;
             rightChild = 2 * currentIndex + 2;
-            if(leftChild > indexOfLast || rightChild > indexOfLast) break; //this occurs when we have reached the bottom of the heap
+            if(leftChild > indexOfLast) break; //this occurs when we have reached the bottom of the heap
         }
 
     }
