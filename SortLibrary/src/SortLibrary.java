@@ -17,7 +17,7 @@ public class SortLibrary {
         }
         String unsortedString = Arrays.toString(unsorted);
 
-        int[] sorted = mergeSort(unsorted);
+        int[] sorted = heapSort(unsorted);
         String sortedString = Arrays.toString(sorted);
 
         System.out.println("Unsorted: " + unsortedString);
@@ -93,9 +93,9 @@ public class SortLibrary {
      * @param arr The array to be sorted.
      * @return A sorted array of integers.
      */
-    public static int[] recursiveQuicksort(int[] arr)
+    public static int[] recursiveQuickSort(int[] arr)
     {
-        quicksort(arr, 0, arr.length - 1);
+        quickSort(arr, 0, arr.length - 1);
 
         return arr;
     }
@@ -150,14 +150,14 @@ public class SortLibrary {
      * @param high The upper bound of the subarray to be sorted.
      * @return A array with the specified subarray sorted.
      */
-    private static int[] quicksort(int[] arr, int low, int high)
+    private static int[] quickSort(int[] arr, int low, int high)
     {
 
         if(low < high)
         {
             int partition = partition(arr, low, high);
-            quicksort(arr, low, partition - 1);
-            quicksort(arr, partition + 1, high);
+            quickSort(arr, low, partition - 1);
+            quickSort(arr, partition + 1, high);
         }
 
         return arr;
@@ -233,6 +233,25 @@ public class SortLibrary {
             k++;
         }
     }
+
+    public static int[] heapSort(int[] arr)
+    {
+        int len = arr.length;
+        IntegerMinheap heap = new IntegerMinheap();
+        for(int i = 0; i < len; i++)
+        {
+            heap.add(arr[i]);
+        }
+
+        int[] result = new int[len];
+        for(int i = 0; i < len; i++)
+        {
+            result[i] = heap.peek();
+            heap.deleteRoot();
+        }
+        return result; //TODO
+    }
+
 
 
     /**
