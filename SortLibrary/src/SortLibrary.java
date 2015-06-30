@@ -234,6 +234,13 @@ public class SortLibrary {
         }
     }
 
+    /**
+     * Performs a heapsort on the supplied array, using the IntegerMinheap class.  The algorithm works by building a
+     * heap out of every element of the array, then repeatedly removing the root of the heap until it is empty.  The
+     * algorithm runs in Theta(n log n); however, in practice quicksort is usually better for large arrays.
+     * @param arr The array to be sorted.
+     * @return A sorted array.
+     */
     public static int[] heapSort(int[] arr)
     {
         int len = arr.length;
@@ -249,7 +256,7 @@ public class SortLibrary {
             result[i] = heap.peek();
             heap.deleteRoot();
         }
-        return result; //TODO
+        return result;
     }
 
 
