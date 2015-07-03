@@ -2,19 +2,27 @@
  * Created by Drew on 6/30/2015.
  */
 
+
 import java.util.Scanner;
 import java.util.Arrays;
+
+/**
+ * A test harness for the methods in SortLibrary.  Asks for user input on size of array, bounds on array elements, and
+ * sorting algorithm to use.  Performs the sort and displays data on time taken.
+ */
 public class Sorter {
 
+    /**
+     * Stores if the user is finished sorting or not.
+     */
     private static boolean done = false;
 
     public static void main(String[] args)
     {
         welcome();
-
+        Scanner scanner = new Scanner(System.in);
         while(!done)
         {
-            Scanner scanner = new Scanner(System.in);
             int[] arr = generateArray(scanner);
             String unsortedString = Arrays.toString(arr);
 
@@ -22,6 +30,7 @@ public class Sorter {
 
             long start = System.currentTimeMillis();
             int[] sorted = sort(type, arr);
+
             long end = System.currentTimeMillis();
             long timeTaken = end - start;
 
@@ -36,10 +45,12 @@ public class Sorter {
             }
 
             System.out.println("Time taken: " + timeTaken + " ms");
-            System.out.println("Unsorted array: " + unsortedString);
-            System.out.println("Sorted array: " + sortedString);
+            //these lines commented because it's silly to print out a million-element array
+//            System.out.println("Unsorted array: " + unsortedString);
+//            System.out.println("Sorted array: " + sortedString);
             done = !again(scanner);
         }
+        scanner.close();
     }
 
     private static void welcome()

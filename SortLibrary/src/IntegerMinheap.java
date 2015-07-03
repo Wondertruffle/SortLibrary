@@ -68,6 +68,7 @@ public class IntegerMinheap implements Heap<Integer> {
         swap(0, indexOfLast);
         siftDown();
         indexOfLast--;
+
     }
 
     /**
@@ -77,7 +78,7 @@ public class IntegerMinheap implements Heap<Integer> {
     {
         if(indexOfLast == 0) return; //heap with one element has heap property trivially.
         int currentIndex = indexOfLast;
-        int parent = (int)Math.floor(((double)currentIndex - 1) / 2);
+        int parent = (int)Math.floor(((double)currentIndex - 1.00) / 2.00);
         while(arr[currentIndex] < arr[parent])
         {
             swap(currentIndex, parent);
@@ -110,7 +111,7 @@ public class IntegerMinheap implements Heap<Integer> {
             }
             leftChild = 2 * currentIndex + 1;
             rightChild = 2 * currentIndex + 2;
-            if(leftChild > indexOfLast) break; //this occurs when we have reached the bottom of the heap
+            if(leftChild >= indexOfLast || rightChild >= indexOfLast) break; //this occurs when we have reached the bottom of the heap
         }
 
     }
